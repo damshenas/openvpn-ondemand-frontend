@@ -20,39 +20,36 @@ var submitForm = function(event) {
       }),
       contentType: 'application/json; charset=utf-8',
 
-      success: function (data, textStatus, xhr) {
-        console.log(xhr.status);
-        console.log(data);
+      success: function (data, _, _) {
 
         if (!data) {
           $("#failed").show();
           $("#initializing").hide();
           return;
-        } else if (!data.ready) {
-          $("#initializing").show();
-          $("#failed").hide();
         }
 
-        $('#formContent').hide();
+        $("#formContent, #failed").hide();
+        $("#initializing").show();
 
         var counter=0
         var isConfigReady = setInterval( function() {
           $("#retryNumber").text(counter)
-          $.ajax({url: data.preSignedUrl, type: 'GET', always: function(xhr) {
+          $.ajax({url: data.preSignedUrl, type: 'GET', success: function(_, _, xhr) {
             if (xhr.status == 200) {
               $("#initialized").show();
-              $("#initializing, #failed").hide();
-              $("#preSignedUrl").attr("href", data.preSignedUrl);
+              $("#formContent, #initializing, #failed").hide();
+              clearInterval(isConfigReady);
             }
-            clearInterval(isConfigReady);
           }});
           counter++;
         }, 3 * 1000);
+
+        $("#preSignedUrl").attr("href", data.preSignedUrl);
       },
     
-      error: function(xhr, textStatus, errorThrown){
+      error: function(_, _, errorThrown){
         $("#failed").show();
-        console.log(textStatus);
+        $("#initializing").hide();
         console.log(errorThrown);
       },
 
