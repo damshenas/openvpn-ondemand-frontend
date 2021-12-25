@@ -8,11 +8,7 @@ $(document).ready(function () {
 });
 
 var submitForm = function(event) {
-  console.log('Heartbeat.');
-  if (event) {
-    console.log('stopped the default')
-    event.preventDefault();
-  }
+  event.preventDefault();
 
   $.ajax({
       url: apigw,
@@ -30,20 +26,28 @@ var submitForm = function(event) {
 
         if (!data) {
           $("#failed").show();
+          return;
+        } else if (!data.ready) {
+          $("#initializing").show();
         }
 
         $('#formContent').hide();
 
-        if (data.ready) {
-          $("#initialized").show();
-          $("#initializing").hide();
-          $("#preSignedUrl").attr("href", data.preSignedUrl);
-        } else {
-          $("#initializing").show();
-          $("#retry").attr("href", "javascript:submitForm();");
-        }
+        var counter=0
+        var isConfigReady = setInterval( function() {
+          $("#retryNumber").text(counter)
+          $.ajax({url: data.preSignedUrl, type: 'GET', always: function(xhr) {
+            if (xhr.status == 200) {
+              $("#initialized").show();
+              $("#initializing").hide();
+              $("#preSignedUrl").attr("href", data.preSignedUrl);
+            }
+            clearInterval(isConfigReady);
+          }});
+          counter++;
+        }, 3 * 1000);
       },
-
+    
       error: function(xhr, textStatus, errorThrown){
         $("#failed").show();
         console.log(textStatus);
@@ -55,4 +59,5 @@ var submitForm = function(event) {
       processData: false
   });
 
+  console.log('Form submited.');
 };
