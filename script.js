@@ -26,9 +26,11 @@ var submitForm = function(event) {
 
         if (!data) {
           $("#failed").show();
+          $("#initializing").hide();
           return;
         } else if (!data.ready) {
           $("#initializing").show();
+          $("#failed").hide();
         }
 
         $('#formContent').hide();
@@ -39,7 +41,7 @@ var submitForm = function(event) {
           $.ajax({url: data.preSignedUrl, type: 'GET', always: function(xhr) {
             if (xhr.status == 200) {
               $("#initialized").show();
-              $("#initializing").hide();
+              $("#initializing, #failed").hide();
               $("#preSignedUrl").attr("href", data.preSignedUrl);
             }
             clearInterval(isConfigReady);
