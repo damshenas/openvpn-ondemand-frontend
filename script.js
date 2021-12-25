@@ -1,5 +1,5 @@
 
-var apigw = 'https://wo5ktjj7sj.execute-api.us-east-1.amazonaws.com/prod/ovod/get'
+var apigw = 'https://wo5ktjj7sj.execute-api.us-east-1.amazonaws.com/prod/'
 
 $(document).ready(function () {
   console.log('Heartbeat.');
@@ -9,25 +9,43 @@ $(document).ready(function () {
 
 var submitForm = function(event) {
   console.log('Heartbeat.');
-  event.preventDefault();
+  if (event) {
+    console.log('stopped the default')
+    event.preventDefault();
+  }
 
   $.ajax({
       url: apigw,
       type: 'POST',
-      data: {
+      data: JSON.stringify({
         username: $("#username").val(),
         password: $("#password").val(),
         region: $("#region").val(),
-      },
+      }),
+      contentType: 'application/json; charset=utf-8',
 
-      success: function (data) {
-        $("#result").text(data);
-        $("#result").css("color", "green");
+      success: function (data, textStatus, xhr) {
+        console.log(xhr.status);
+        console.log(data);
+
+        if (!data) {
+          $("#failed").show();
+        }
+
+        $('#formContent').hide();
+
+        if (data.ready) {
+          $("#initialized").show();
+          $("#initializing").hide();
+          $("#preSignedUrl").attr("href", data.preSignedUrl);
+        } else {
+          $("#initializing").show();
+          $("#retry").attr("href", "javascript:submitForm();");
+        }
       },
 
       error: function(xhr, textStatus, errorThrown){
-        $("#result").text('Login failed. Please contact admin.');
-        $("#result").css("color", "red");
+        $("#failed").show();
         console.log(textStatus);
         console.log(errorThrown);
       },
