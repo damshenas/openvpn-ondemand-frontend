@@ -14,8 +14,12 @@
 <body>
   <div class="wrapper">
     <div id="result">
-      <p id="initialized" style="display:none;"><b>We are good to go!</b></br>Please <a id="preSignedUrl">click here</a> to download the openvpn config file and then open it with OpenVPN app.</p>
-      <p id="initializing" style="display:none;">The server is initializing and it may take a few minutes.</br>We will retry every 3 seconds and refresh this page once we are good to go.</br>Number of retries: <b id="retryNumber"></b></p>
+      <p id="initialized" style="display:none;"><b>We are good to go!</b></br>
+        Please <a id="preSignedUrl">click here</a> to download the openvpn config file and then open it with OpenVPN app.</br>
+        To save costs, the server will shut down if there are no connections for 15 minutes.</p>
+      <p id="initializing" style="display:none;">The server is initializing and it may take a few minutes.</br>
+        We will retry every 3 seconds and refresh this page once we are good to go.</br>
+        Number of retries: <b id="retryNumber"></b></p>
       <p id="failed" style="color:red;display:none;">Login failed. Please retry and if the issue persists please contact admin.</p>
     </div>
 
