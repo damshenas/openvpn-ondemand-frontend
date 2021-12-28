@@ -10,6 +10,11 @@ $(document).ready(function () {
 var submitForm = function(event) {
   event.preventDefault();
 
+  $('#submit').prop('disabled', true);
+  setTimeout(function() {
+        $('#submit').prop('disabled', false);
+  }, 3000);
+
   $.ajax({
       url: apigw,
       type: 'POST',
