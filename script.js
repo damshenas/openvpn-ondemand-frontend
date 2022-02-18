@@ -1,5 +1,5 @@
 
-var apigw = 'https://mm75dhxrnc.execute-api.us-east-1.amazonaws.com/prod/'
+var apigw = 'https://rnaausivw6.execute-api.us-east-1.amazonaws.com/prod/'
 
 $(document).ready(function () {
   console.log('Heartbeat.');
