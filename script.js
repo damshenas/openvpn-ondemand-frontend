@@ -1,5 +1,6 @@
 
-var apigw = 'https://8nqen0eax5.execute-api.us-east-1.amazonaws.com/prod/'
+// var apigw = 'https://8nqen0eax5.000.execute-api.us-east-1.amazonaws.com/prod/'
+var apigw = 'https://' + '8nqen0eax5' + '.execute-api.' + 'us-east-1.amazonaws.com/prod/'
 
 $(document).ready(function () {
   console.log('Heartbeat.');
