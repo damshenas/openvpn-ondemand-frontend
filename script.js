@@ -41,6 +41,7 @@ var submitForm = function(event) {
           $("#retryNumber").text(counter)
           $.ajax({url: data.preSignedUrl, type: 'GET', success: function(_, _, xhr) {
             if (xhr.status == 200) {
+              console.log('Server got ready in ' + counter * 3 + ' seconds');
               $("#initialized").show();
               $("#formContent, #initializing, #failed").hide();
               clearInterval(isConfigReady);
