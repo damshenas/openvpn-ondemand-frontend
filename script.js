@@ -1,6 +1,5 @@
 
-// var apigw = 'https://8nqen0eax5.000.execute-api.us-east-1.amazonaws.com/prod/'
-var apigw = 'https://' + '8nqen0eax5' + '.execute-api.' + 'us-east-1.amazonaws.com/prod/'
+var apigw = 'https://' + 'hvkehaf065' + '.execute-api.' + 'us-east-1.amazonaws.com/prod/'
 
 $(document).ready(function () {
   console.log('Heartbeat.');
@@ -42,6 +41,7 @@ var submitForm = function(event) {
           $("#retryNumber").text(counter)
           $.ajax({url: data.preSignedUrl, type: 'GET', success: function(_, _, xhr) {
             if (xhr.status == 200) {
+              console.log('Server got ready in ' + counter * 3 + ' seconds');
               $("#initialized").show();
               $("#formContent, #initializing, #failed").hide();
               clearInterval(isConfigReady);
